@@ -23,7 +23,7 @@ model cars {
   image        String?
   price        Int?
   created_dt   DateTime? @default(now()) @db.Timestamp(6)
-  updated_dt   DateTime? @db.Timestamp(6)
+  updated_dt   DateTime? @updatedAt //diubah dari @db.Timestamp(6) ke @updatedAt agar auto update
   created_by   String?   @db.VarChar
   updated_by   String?   @db.VarChar
   order        order[]
@@ -40,6 +40,10 @@ model order {
   is_driver  Boolean?
   is_expired Boolean?
   status     String?   @db.VarChar
+  created_dt DateTime? @default(now()) @db.Timestamp(6)
+  updated_dt DateTime? @updatedAt //diubah dari @db.Timestamp(6) ke @updatedAt agar auto update
+  created_by String?   @db.VarChar
+  updated_by String?   @db.VarChar
   cars       cars?     @relation(fields: [car_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users      users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -56,8 +60,8 @@ model users {
   phone_number   String    @unique @db.VarChar
   driver_license String?
   birthdate      DateTime? @db.Date
-  created_at     DateTime? @db.Timestamp(6)
-  updated_at     DateTime? @db.Timestamp(6)
+  created_dt     DateTime? @default(now()) @db.Timestamp(6)
+  updated_dt     DateTime? @updatedAt //diubah dari @db.Timestamp(6) ke @updatedAt agar auto update
   created_by     String?   @db.VarChar
   updated_by     String?   @db.VarChar
   order          order[]
