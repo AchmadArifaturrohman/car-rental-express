@@ -15,7 +15,7 @@ CREATE TABLE "cars" (
     "image" TEXT,
     "price" INTEGER,
     "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
-    "updated_dt" TIMESTAMP(6),
+    "updated_dt" TIMESTAMP(3),
     "created_by" VARCHAR,
     "updated_by" VARCHAR,
 
@@ -24,9 +24,9 @@ CREATE TABLE "cars" (
 
 -- CreateTable
 CREATE TABLE "order" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "order_no" VARCHAR NOT NULL,
-    "user_id" BIGINT NOT NULL,
+    "user_id" INTEGER NOT NULL,
     "car_id" INTEGER NOT NULL,
     "start_time" TIMESTAMP(6),
     "end_time" TIMESTAMP(6),
@@ -34,13 +34,17 @@ CREATE TABLE "order" (
     "is_driver" BOOLEAN,
     "is_expired" BOOLEAN,
     "status" VARCHAR,
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
+    "created_by" VARCHAR,
+    "updated_by" VARCHAR,
 
     CONSTRAINT "order_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "users" (
-    "id" BIGSERIAL NOT NULL,
+    "id" SERIAL NOT NULL,
     "full_name" VARCHAR,
     "email" VARCHAR(30) NOT NULL,
     "password" VARCHAR NOT NULL,
@@ -51,8 +55,8 @@ CREATE TABLE "users" (
     "phone_number" VARCHAR NOT NULL,
     "driver_license" TEXT,
     "birthdate" DATE,
-    "created_at" TIMESTAMP(6),
-    "updated_at" TIMESTAMP(6),
+    "created_dt" TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP,
+    "updated_dt" TIMESTAMP(3),
     "created_by" VARCHAR,
     "updated_by" VARCHAR,
 

@@ -3,7 +3,18 @@ const prisma = new PrismaClient();
 class Cars{
     async getCars(req, res){
         try {
-            const cars = await prisma.cars.findMany();
+            const cars = await prisma.cars.findMany( {
+                select: {
+                    id: true,
+                    name: true,
+                    year: true,
+                    type: true,
+                    manufacture: true,
+                    price: true,
+                    image: true
+                }
+            }
+            );
             res.status(200).json(cars);
         } catch (error) {
             res.status(500).json("Internal Server Error");
@@ -72,7 +83,7 @@ class Cars{
             if (deletedCar.rowCount === 0) {
                 return res.status(404).json({ message: "Car not found" });
             }
-            res.status(200).json({ message: "Car deleted successfully", car: deletedCar.rows[0] });
+            res.status(200).json({ message: "Car deleted successfully"});
         } catch (error) {
             res.status(500).json("Internal Server Error");
             console.log({ message: error.message });

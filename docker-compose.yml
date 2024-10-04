@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3112:3111"
+    environment:
+      DATABASE_URL: "postgresql://postgres:1234@db:5432/car_rental?schema=public"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: car_rental
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
