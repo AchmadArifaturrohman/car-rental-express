@@ -8,7 +8,7 @@ class CarModel extends BaseModel {
         this.select = {
             id: true,
             name: true,
-            manufacure: true,
+            manufacture: true,
             image: true,
             year: true,
             price: true,

@@ -59,7 +59,7 @@ model users {
   avatar         String?   @db.VarChar
   phone_number   String    @unique @db.VarChar
   driver_license String?
-  birthdate      DateTime? @db.Date
+  birthdate      String?
   created_dt     DateTime? @default(now()) @db.Timestamp(6)
   updated_dt     DateTime? @updatedAt //diubah dari @db.Timestamp(6) ke @updatedAt agar auto update
   created_by     String?   @db.VarChar

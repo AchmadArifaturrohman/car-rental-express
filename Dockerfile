@@ -19,5 +19,5 @@ RUN npx prisma generate
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Define the command to run the app
-CMD ["yarn", "dev"]
+# Define the command to run the app and apply migrations
+CMD ["sh", "-c", "npx prisma migrate dev && yarn dev"]
