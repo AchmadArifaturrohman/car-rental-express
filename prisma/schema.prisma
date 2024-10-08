@@ -54,10 +54,10 @@ model users {
   email          String    @unique @db.VarChar(30)
   password       String    @db.VarChar
   role           String    @db.VarChar
-  address        String    @db.VarChar
+  address        String?   @db.VarChar
   gender         String?   @db.VarChar
   avatar         String?   @db.VarChar
-  phone_number   String    @unique @db.VarChar
+  phone_number   String?   @unique @db.VarChar
   driver_license String?
   birthdate      String?
   created_dt     DateTime? @default(now()) @db.Timestamp(6)

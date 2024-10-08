@@ -4,7 +4,6 @@ function validation(schema) {
       const valid = await schema
         .options({ abortEarly: false })
         .validateAsync(req.body);
-
       if (valid.error) {
         throw new Error(valid.error.message);
       }

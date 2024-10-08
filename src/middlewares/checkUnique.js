@@ -8,10 +8,14 @@ const checkUniques = async (model, req, res, next) => {
     select: { email: true },
   });
 
-  const phoneNumberExists = await model.getOne({
-    where: { phone_number },
-    select: { phone_number: true },
-  });
+  let phoneNumberExists = null;
+
+  if (phone_number) {
+    phoneNumberExists = await model.getOne({
+      where: { phone_number },
+      select: { phone_number: true },
+    });
+  }
 
   if (emailExists && phoneNumberExists) {
     return next(new ValidationError("email and phone number already exist"));

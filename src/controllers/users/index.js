@@ -5,7 +5,7 @@ const UserModel = require("../../models/users");
 const users = new UserModel();
 const express = require("express");
 const router = express.Router();
-
+const { authorize, checkRole } = require("../../middlewares/authorization");
 const userSchema = Joi.object({
   full_name: Joi.string().required(),
   email: Joi.string().email().required(),
@@ -26,6 +26,8 @@ class UsersController extends BaseController {
     router.post(
       "/",
       this.validation(userSchema),
+      authorize,
+      checkRole(["admin"]),
       this.checkUnique,
       this.encryptPass,
       this.create
@@ -34,10 +36,12 @@ class UsersController extends BaseController {
     router.put(
       "/:id",
       this.validation(userSchema),
+      authorize,
+      checkRole(["admin"]),
       this.checkUnique,
       this.update
     );
-    router.delete("/:id", this.delete);
+    router.delete("/:id", authorize, checkRole(["superadmin"]), this.delete);
   }
 }
 new UsersController(users);
