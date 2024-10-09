@@ -6,6 +6,7 @@ const users = new UserModel();
 const express = require("express");
 const router = express.Router();
 const { authorize, checkRole } = require("../../middlewares/authorization");
+
 const userSchema = Joi.object({
   full_name: Joi.string().required(),
   email: Joi.string().email().required(),

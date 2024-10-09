@@ -93,6 +93,7 @@ class AuthController extends BaseController {
         role: req.body.role || "customer",
         full_name: req.body.full_name || randomUsername(),
       };
+      console.log("user model", this.model);
       const newUser = await this.model.set(user);
       return res.status(201).json(
         this.apiSend({
