@@ -1,0 +1,27 @@
+{
+    "menu":{
+        "id":1,
+        "name":"Order",
+        "visible":true,
+        "route":"/order",
+        "subMenu": {
+            "id":1,
+            "name":"List Order",
+            "visible":true,
+            "features":[{
+                "id":1,
+                "name":"button_print",
+                "route": null,
+                "methode": "null",
+                "visible": false
+            },
+            {
+                "id":2,
+                "name":"order_edit",
+                "route": "/order",
+                "methode": "PUT",
+                "visible": false
+            }]
+    }
+}
+}
