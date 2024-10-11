@@ -1,0 +1,725 @@
+{
+	"info": {
+		"_postman_id": "c14b2e8b-5a36-4fd2-a53d-7d5d0b565a9f",
+		"name": "car_rental",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30144608",
+		"_collection_link": "https://car-rental-team.postman.co/workspace/Car-Rental-Team-Workspace~f0ee9609-8f0a-4a72-b7a0-12ec2124b5de/collection/30144608-c14b2e8b-5a36-4fd2-a53d-7d5d0b565a9f?action=share&source=collection_link&creator=30144608"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "signin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseBody = pm.response.json();\r",
+									"var userToken = responseBody.data.token;\r",
+									"pm.globals.set(\"token\", userToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"email\": \"john.na00aaa1ap1@gmail.com\",\r\n     \"password\": \"Qwerty@123411\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/auth/signin",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"email\": \"john.na00aaa1ap1@gmail.com\",\r\n     \"password\": \"Qwerty@123411\",\r\n     \"role\": \"customer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/auth/signup",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cars",
+			"item": [
+				{
+					"name": "get car by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/cars/4",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"cars",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get cars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is not empty\", function () {\r",
+									"    var responseXML = xml2Json(pm.response.text());\r",
+									"    pm.expect(responseXML).to.not.be.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/cars",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post car",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"name\": \"Veloz113\", \"year\": \"2024\", \"type\": \"Sedan\", \"manufacture\": \"Toyota\", \"price\": 10000, \"image\": \"https://www.toyota.astra.co.id/sites/default/files/2022-06/20230202_REBORN_NEW_1200x628_0.jpg\", \"license_no\": \"B 12345\", \"seat\": 5, \"baggage\": 2, \"transmission\": \"Automatic\", \"description\": \"This is a Toyota Veloz\", \"is_driver\": true, \"is_available\": true }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/cars",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put car",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"manufacture\": \"Toyota123\",\r\n    \"type\": \"SUV\",\r\n    \"license_no\": \"B 1234 F\",\r\n    \"seat\": 4,\r\n    \"baggage\": 50,\r\n    \"transmission\": \"Automatic\",\r\n    \"year\": \"2020-01-01\",\r\n    \"name\": \"All New Yaris\",\r\n    \"description\": \"Fortuner is a popular SUV known for its reliability and comfort.\",\r\n    \"is_driver\": false,\r\n    \"image\": \"https://www.toyota.astra.co.id/sites/default/files/2022-06/20230202_REBORN_NEW_1200x628_0.jpg\",\r\n    \"price\": 1000000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/cars/4",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"cars",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete car",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/cars/2",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"cars",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is not empty\", function () {\r",
+									"    var responseXML = xml2Json(pm.response.text());\r",
+									"    pm.expect(responseXML).to.not.be.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/users",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname}}/users/1",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"John Doy1113\",\r\n    \"email\": \"john.na0011110pp@gmail.com\",\r\n    \"password\": \"Qwerty@1234\",\r\n    \"role\": \"customer\",\r\n    \"address\": \"123 Main St, Anytown, USA\",\r\n    \"gender\": \"Male\",\r\n    \"avatar\": \"https://example.com/john-doe.jpg\",\r\n    \"phone_number\": \"2828928111944\",\r\n    \"driver_license\": \"DL123456888\",\r\n    \"birthdate\": \"2000-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/users",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"John Doy123\",\r\n    \"email\": \"john.doe30a11@gmail.com\",\r\n    \"password\": \"mypass111\",\r\n    \"role\": \"customer\",\r\n    \"address\": \"123 Main St, Anytown, USA\",\r\n    \"gender\": \"Male\",\r\n    \"avatar\": \"https://example.com/john-doe.jpg\",\r\n    \"phone_number\": \"12345011\",\r\n    \"driver_license\": \"DL123456888\",\r\n    \"birthdate\": \"2000-01-01T00:00:00Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/users/22",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"users",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/users/1",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "docker",
+			"item": [
+				{
+					"name": "docker get cars",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body is not empty\", function () {\r",
+									"    var responseXML = xml2Json(pm.response.text());\r",
+									"    pm.expect(responseXML).to.not.be.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname_docker}}/cars",
+							"host": [
+								"{{hostname_docker}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "docker get car by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hostname_docker}}/cars/111",
+							"host": [
+								"{{hostname_docker}}"
+							],
+							"path": [
+								"cars",
+								"111"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "docker delete car",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname_docker}}/cars/4",
+							"host": [
+								"{{hostname_docker}}"
+							],
+							"path": [
+								"cars",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "docker post car test",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"name\": \"Veloz11333\", \"year\": \"2024\", \"type\": \"Sedan\", \"manufacture\": \"Toyota\", \"price\": 10000, \"image\": \"https://www.toyota.astra.co.id/sites/default/files/2022-06/20230202_REBORN_NEW_1200x628_0.jpg\", \"license_no\": \"B 12345\", \"seat\": 5, \"baggage\": 2, \"transmission\": \"Automatic\", \"description\": \"This is a Toyota Veloz\", \"is_driver\": true, \"is_available\": true }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname_docker}}/cars",
+							"host": [
+								"{{hostname_docker}}"
+							],
+							"path": [
+								"cars"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "post orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"car_id\": 16,\r\n        \"is_driver\": true,\r\n        \"start_time\": \"2024-10-09T08:06:49.533Z\",\r\n        \"end_time\": \"2024-10-11T08:06:49.533Z\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/orders",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"car_id\": 9,\r\n        \"is_driver\": true,\r\n        \"start_time\": \"2024-10-09T08:06:49.533Z\",\r\n        \"end_time\": \"2024-10-11T08:06:49.533Z\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/orders",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put return",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"status\": \"return\",\r\n        \"end_time\": \"2024-10-11T06:06:49.533Z\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hostname}}/orders/14/return",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"orders",
+								"14",
+								"return"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "upload",
+			"item": [
+				{
+					"name": "upload to cloudinary",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/achma/OneDrive/Pictures/dxperror.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{hostname}}/upload",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload to local",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/achma/OneDrive/Pictures/dxperror.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{hostname}}/upload",
+							"host": [
+								"{{hostname}}"
+							],
+							"path": [
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get file",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/achma/OneDrive/Pictures/dxperror.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://res.cloudinary.com/dlozwlgwt/image/upload/v1728543370/rqvaudimjwnjivslli9j.png",
+							"protocol": "http",
+							"host": [
+								"res",
+								"cloudinary",
+								"com"
+							],
+							"path": [
+								"dlozwlgwt",
+								"image",
+								"upload",
+								"v1728543370",
+								"rqvaudimjwnjivslli9j.png"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "hostname",
+			"value": "http://localhost:3111/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "hostname_docker",
+			"value": "http://localhost:3112/api/v1",
+			"type": "string"
+		}
+	]
+}
