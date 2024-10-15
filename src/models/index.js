@@ -1,5 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ["query", "warn", "error", "info"],
+});
 
 // abstract class
 class BaseModel {

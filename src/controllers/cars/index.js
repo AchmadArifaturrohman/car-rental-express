@@ -3,6 +3,7 @@ const Joi = require("joi");
 const BaseController = require("../base");
 const CarModel = require("../../models/cars");
 const { memory: multerMemory } = require("../../middlewares/upload");
+const rbac = require("../../middlewares/rbac");
 const express = require("express");
 const router = express.Router();
 const { authorize, checkRole } = require("../../middlewares/authorization");
@@ -33,7 +34,7 @@ class CarsController extends BaseController {
       "/",
       this.validation(carSchema),
       authorize,
-      checkRole(["admin"]),
+      rbac("CARS", "create"),
       this.create
     );
     router.get("/export", this.export("cars export"));
@@ -43,7 +44,7 @@ class CarsController extends BaseController {
       "/:id",
       this.validation(carSchema),
       authorize,
-      checkRole(["admin"]),
+      rbac("CARS", "update"),
       this.update
     );
     router.delete("/:id", authorize, checkRole(["superadmin"]), this.delete);

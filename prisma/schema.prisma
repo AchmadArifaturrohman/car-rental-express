@@ -53,88 +53,60 @@ model users {
   full_name      String?   @db.VarChar
   email          String    @unique @db.VarChar(30)
   password       String    @db.VarChar
-  role           String    @db.VarChar
   address        String?   @db.VarChar
   gender         String?   @db.VarChar
   avatar         String?   @db.VarChar
   phone_number   String?   @unique @db.VarChar
   driver_license String?
   birthdate      String?
+  role_id        Int
   created_dt     DateTime? @default(now()) @db.Timestamp(6)
   updated_dt     DateTime? @updatedAt //diubah dari @db.Timestamp(6) ke @updatedAt agar auto update
   created_by     String?   @db.VarChar
   updated_by     String?   @db.VarChar
   order          order[]
+  role           roles     @relation(fields: [role_id], references: [id], onDelete: Cascade) //Cascade adalah jika data role dihapus maka di users juga dihapus
 }
 
-// model roles {
-//   id          Int           @id @default(autoincrement())
-//   role        String
-//   created_at  DateTime?     @default(now()) @db.Timestamp(6)
-//   updated_at  DateTime?     @updatedAt
-//   created_by  String?       @db.VarChar
-//   updated_by  String?       @db.VarChar
-//   menu_access menu_access[]
-// }
+model roles {
+  id         Int       @id @default(autoincrement())
+  role       String    @unique
+  created_dt DateTime? @default(now()) @db.Timestamp(6)
+  updated_dt DateTime? @updatedAt
+  created_by String?   @db.VarChar
+  updated_by String?   @db.VarChar
+  access     access[]
+  user       users[]
+}
 
-// model features_access {
-//   id             Int         @id @default(autoincrement())
-//   menu_access_id Int
-//   features_id    Int
-//   visible        Boolean
-//   created_at     DateTime
-//   updated_at     DateTime
-//   created_by     String
-//   updated_by     String
-//   menu_access    menu_access @relation(fields: [menu_access_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-//   menu           menu        @relation(fields: [features_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-// }
+model menus {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  title       String
+  icon        String?
+  path        String?
+  is_submenu  Boolean   @default(false)
+  parent_id   Int?
+  permissions String[]
+  created_dt  DateTime? @default(now()) @db.Timestamp(6)
+  updated_dt  DateTime? @updatedAt
+  created_by  String?   @db.VarChar
+  updated_by  String?   @db.VarChar
+  submenu     menus?    @relation("submenu", fields: [parent_id], references: [id])
+  parent      menus[]   @relation("submenu")
+  access      access[]
+}
 
-// model menu {
-//   id              Int               @id @default(autoincrement())
-//   name            String
-//   route           String
-//   created_at      DateTime
-//   updated_at      DateTime
-//   created_by      String
-//   updated_by      String
-//   features_access features_access[]
-//   menu_features   menu_features[]
-//   menu_access     menu_access[]
-// }
-
-// model menu_features {
-//   id         Int      @id @default(autoincrement())
-//   menu_id    Int
-//   name       String
-//   route      String
-//   created_at DateTime
-//   updated_at DateTime
-//   created_by String
-//   updated_by String
-//   menu       menu     @relation(fields: [menu_id], references: [id])
-// }
-
-// model menu_access {
-//   id              Int               @id @default(autoincrement())
-//   role_id         Int
-//   menu_id         Int
-//   visible         Boolean
-//   created_at      DateTime?         @default(now()) @db.Timestamp(6)
-//   updated_at      DateTime?         @updatedAt
-//   created_by      String?           @db.VarChar
-//   updated_by      String?           @db.VarChar
-//   roles           roles             @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-//   menu            menu              @relation(fields: [menu_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-//   features_access features_access[]
-// }
-
-// model promos {
-//   id         Int      @id @default(autoincrement())
-//   name       String
-//   discount   Float
-//   created_at DateTime
-//   updated_at DateTime
-//   created_by String
-//   updated_by String
-// }
+model access {
+  id         Int       @id @default(autoincrement())
+  role_id    Int
+  menu_id    Int
+  visible    Boolean   @default(true)
+  grant      Json
+  role       roles     @relation(fields: [role_id], references: [id], onDelete: Cascade)
+  menu       menus     @relation(fields: [menu_id], references: [id], onDelete: Cascade)
+  created_dt DateTime? @default(now()) @db.Timestamp(6)
+  updated_dt DateTime? @updatedAt
+  created_by String?   @db.VarChar
+  updated_by String?   @db.VarChar
+}
