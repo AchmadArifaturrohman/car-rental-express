@@ -1,10 +1,15 @@
-const controllers = require("../controllers");
+const { cars, users, auth, orders, upload } = require("../controllers");
+const path = require("path");
+const express = require("express");
+const router = express.Router();
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../../api/openapi.json");
 
-module.exports = function (app) {
-  app
-    .use("/api/v1/cars", controllers.cars)
-    .use("/api/v1/users", controllers.users)
-    .use("/api/v1/auth", controllers.auth)
-    .use("/api/v1/orders", controllers.orders)
-    .use("/api/v1/upload", controllers.upload);
-};
+router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+router.use("/cars", cars);
+router.use("/users", users);
+router.use("/auth", auth);
+router.use("/orders", orders);
+router.use("/upload", upload);
+
+module.exports = router;

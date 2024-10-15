@@ -3,6 +3,7 @@ const Joi = require("joi");
 const BaseController = require("../base");
 const OrderModel = require("../../models/orders");
 const CarModel = require("../../models/cars");
+const { createInvoice } = require("../../helpers/createInvoice");
 
 const express = require("express");
 const router = express.Router();
@@ -44,14 +45,19 @@ class OrdersController extends BaseController {
       this.validation(putReturnSchema),
       authorize,
       checkRole(["customer"]),
-      this.update
+      this.putReturn
     );
     router.put(
       "/:id/payment",
-      this.validation(updateOrderSchema),
       authorize,
       checkRole(["customer"]),
-      this.update
+      this.payment
+    );
+    router.get(
+      "/:id/invoice",
+      authorize,
+      checkRole(["customer"]),
+      this.downloadInvoice
     );
     router.delete("/:id", authorize, checkRole(["superadmin"]), this.delete);
   }
@@ -125,7 +131,7 @@ class OrdersController extends BaseController {
   putReturn = async (req, res, next) => {
     try {
       const dataOrder = await this.model.getOne({
-        where: { id: req.params.id },
+        where: { id: parseInt(req.params.id) },
         select: {
           status: true,
           end_time: true,
@@ -169,6 +175,71 @@ class OrdersController extends BaseController {
       );
     } catch (error) {
       next(new ServerError(error));
+    }
+  };
+
+  payment = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const { payment } = req.body;
+      const order = await this.model.getById(id);
+
+      if (payment !== order.total) {
+        return next(new ValidationError("Payment not valid"));
+      }
+
+      const orderPaid = await this.model.update(id, {
+        status: "paid",
+      });
+
+      return res.status(200).json(
+        this.apiSend({
+          code: 200,
+          status: "success",
+          message: "Order Paid successfully",
+          data: orderPaid,
+        })
+      );
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  downloadInvoice = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      const order = await this.model.getById(id, {
+        order_no: true,
+        created_dt: true,
+        status: true,
+        user_id: true,
+        start_time: true,
+        end_time: true,
+        total: true,
+        cars: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+          },
+        },
+        users: {
+          select: {
+            id: true,
+            full_name: true,
+            address: true,
+          },
+        },
+      });
+
+      if (order.status !== "paid") {
+        return next(new ValidationError("Order not paid!"));
+      }
+      console.log("order", order);
+
+      createInvoice(order, res);
+    } catch (error) {
+      return next(error);
     }
   };
 }

@@ -9,7 +9,7 @@ class BaseModel {
     this.model = prisma[model];
   }
 
-  get = async ({ where, include, query = {} }) => {
+  get = async ({ where, include, query = {}, select = this.select }) => {
     const {
       sortBy = "created_dt",
       sort = "desc",
@@ -17,7 +17,7 @@ class BaseModel {
       limit = 10,
     } = query;
     const queries = {
-      select: this.select,
+      select,
       where,
       include,
       orderBy: {
@@ -38,8 +38,11 @@ class BaseModel {
     };
   };
 
-  getById = async (id) => {
-    return this.model.findUnique({ where: { id: Number(id) } });
+  getById = async (id, select) => {
+    return this.model.findUnique({
+      where: { id: Number(id) },
+      select,
+    });
   };
 
   getOne = async (query) => {
@@ -64,6 +67,10 @@ class BaseModel {
 
   transaction = async (query) => {
     return prisma.$transaction(query);
+  };
+
+  setMany = (data) => {
+    return this.model.createMany({ data });
   };
 }
 
