@@ -9,13 +9,17 @@ class UserModel extends BaseModel {
       id: true,
       full_name: true,
       email: true,
-      role: true,
+      role_id: true,
       address: true,
       gender: true,
       avatar: true,
       phone_number: true,
       driver_license: true,
       birthdate: true,
+      created_dt: true,
+      updated_dt: true,
+      created_by: true,
+      updated_by: true,
     };
   }
 }

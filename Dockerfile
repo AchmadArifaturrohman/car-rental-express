@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files
 COPY package*.json ./
 COPY prisma ./prisma/
+
 # Install dependencies
 RUN yarn install
 
