@@ -20,7 +20,6 @@ describe(`POST ${signupRoute}`, () => {
       .set("Accept", "application/json")
       .then((response) => {
         expect(response.status).toBe(201);
-        console.log("response.body :", response.body);
         expect(response.body).toEqual(
           expect.objectContaining({
             code: 201,
@@ -42,6 +41,48 @@ describe(`POST ${signupRoute}`, () => {
                 created_by: null,
                 updated_by: null,
               },
+            }),
+          })
+        );
+        done();
+      })
+      .catch((error) => {
+        console.log("error :", error);
+        done(error);
+      });
+  });
+});
+
+describe(`POST ${signinRoute}`, () => {
+  it("should return 200 status code", (done) => {
+    request(server)
+      .post(signinRoute)
+      .send(testUser)
+      .set("Accept", "application/json")
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            code: 200,
+            status: "success",
+            message: "User signed in successfully",
+            data: expect.objectContaining({
+              user: {
+                full_name: response.body.data.user.full_name,
+                email: response.body.data.user.email,
+                address: null,
+                gender: null,
+                avatar: null,
+                phone_number: null,
+                driver_license: null,
+                birthdate: null,
+                role_id: 3,
+                created_dt: expect.any(String),
+                updated_dt: expect.any(String),
+                created_by: null,
+                updated_by: null,
+              },
+              token: expect.any(String),
             }),
           })
         );
