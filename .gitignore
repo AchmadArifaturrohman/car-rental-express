@@ -18,5 +18,3 @@ coverage
 .env
 .env.*
 .nginx.conf
-docker-compose.yml
-Dockerfile
