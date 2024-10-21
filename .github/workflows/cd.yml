@@ -21,7 +21,7 @@ jobs:
           port: 22
           script_stop: true
           debug: true
-          key_format: auto
+          key_format: pem
           script: |
             cd /app/server-api
             sudo docker compose up -d --build
