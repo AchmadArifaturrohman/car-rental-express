@@ -19,6 +19,9 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           port: 22
+          script_stop: true
+          debug: true
+          key_format: pem
           script: |
             cd /app/server-api
             sudo docker compose up -d --build
