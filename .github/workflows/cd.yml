@@ -23,7 +23,8 @@ jobs:
           debug: true
           script: |
             cd app/server-api
+            sudo docker rmi $(sudo docker images -f "dangling=true" -q)
             sudo rm -rf car-rental-express
             git clone https://github.com/AchmadArifaturrohman/car-rental-express.git 
             cd car-rental-express
-            sudo docker compose up -d -rm --build --remove-orphans
+            sudo docker compose up -d --build --remove-orphans
