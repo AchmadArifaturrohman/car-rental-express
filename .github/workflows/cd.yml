@@ -22,5 +22,5 @@ jobs:
           script_stop: true
           debug: true
           script: |
-            cd /app/server-api
+            cd app/server-api
             sudo docker compose up -d --build
