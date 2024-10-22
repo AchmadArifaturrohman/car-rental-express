@@ -26,4 +26,4 @@ jobs:
             sudo rm -rf car-rental-express
             git clone https://github.com/AchmadArifaturrohman/car-rental-express.git 
             cd car-rental-express
-            sudo docker compose up -d --build --rm
+            sudo docker compose up -d -rm --build --remove-orphans
