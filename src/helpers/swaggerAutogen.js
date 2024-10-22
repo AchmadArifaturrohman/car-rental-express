@@ -5,7 +5,7 @@ const doc = {
     title: "Car Rental API",
     description: "API for Car Rental System",
   },
-  host: "localhost:3111/api/v1",
+  host: "http://car-rental-api.duckdns.org/api/v1",
   components: {
     securitySchemes: {
       bearerAuth: {
