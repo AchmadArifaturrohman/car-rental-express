@@ -23,6 +23,7 @@ jobs:
           debug: true
           script: |
             cd app/server-api
-            git clone https://github.com/AchmadArifaturrohman/car-rental-express.git
+            sudo rm -rf car-rental-express
+            git clone https://github.com/AchmadArifaturrohman/car-rental-express.git 
             cd car-rental-express
-            sudo docker compose up -d --build
+            sudo docker compose up -d --build -rm
