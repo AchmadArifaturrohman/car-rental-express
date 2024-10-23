@@ -14,7 +14,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3111/api/v1"
+      "url": "http://car-rental-api.duckdns.org/api/v1"
     }
   ],
   "tags": [
